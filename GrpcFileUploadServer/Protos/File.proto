@@ -1,0 +1,32 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcFileService";
+// option => ilgili servicelerin namespaci
+package File;
+
+import "google/protobuf/empty.proto";
+// The greeting service definition.
+// service => Say hello metodu olacak diyo serverda
+service FileServer {
+  // Sends a greeting
+  rpc FileDownload (FileInfo) returns (stream AllFile);
+  rpc FileUpload (stream AllFile) returns (stream ResponseDataForUpload);
+}
+
+// The request message containing the user's name.
+// messagelar => client ile server arasýndaki veri iletiþiminde kullanýlacak veri türü
+message FileInfo {
+  string fileName = 1;
+  string fileExtention = 2;
+}
+// The response message containing the greetings.
+message AllFile {
+   int64 fileSize = 1;
+   bytes buffers = 2;
+   int32 readedByte = 3;
+   FileInfo info = 4;
+}
+message ResponseDataForUpload{
+	string message = 1;
+	int32 percent = 2;
+}
